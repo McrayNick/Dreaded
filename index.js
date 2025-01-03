@@ -99,7 +99,7 @@ qrTimeout: 20000000,
 
           } else if (m.chat.endsWith('@s.whatsapp.net')) { 
 
-                 await sock.sendPresenceUpdate('recording', m.chat);
+                 await sock.sendPresenceUpdate('available', m.chat);
 
 
 
