@@ -1,25 +1,20 @@
-const makeWASocket = require("@whiskeysockets/baileys").default; 
+const { logger, makeWASocket } = require("@whiskeysockets/baileys").default; 
+const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys"); 
 
- const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys"); 
-
- const util = require("util"); 
-
- const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys"); 
- const logger = require("@whiskeysockets/baileys/lib/Utils/logger").default; 
+ const util = require("util");  
  const pino = require("pino"); 
  const gp = ["254114660061"];  
  const fs = require("fs"); 
  const figlet = require("figlet"); 
  const chalk = require("chalk"); 
  const os = require("os");
-let lastTextTime = 0;
-const messageDelay = 5000;
-const speed = require("performance-now"); 
+ let lastTextTime = 0;
+ const messageDelay = 5000;
+ const currentTime = Date.now();
+ const speed = require("performance-now"); 
  const timestampe = speed(); 
-   const dreadedspeed = speed() - timestampe 
-
+ const Rspeed = speed() - timestampe 
  const spinnies = new(require('spinnies'))(); 
-
  const { Boom } = require("@hapi/boom"); 
  const color = (text, color) => { 
    return !color ? chalk.green(text) : chalk.keyword(color)(text); 
@@ -49,13 +44,12 @@ const speed = require("performance-now");
    } 
    return m; 
  } 
- async function main () { 
- // const main = async () => { 
 
-   const { state, saveCreds } = await useMultiFileAuthState('session'); 
+ async function main () { 
+ const { state, saveCreds } = await useMultiFileAuthState('session'); 
  console.log( 
      color( 
-       figlet.textSync("DREADED  BOT", { 
+       figlet.textSync("RAVEN-AI", { 
          font: "Standard", 
          horizontalLayout: "default", 
          vertivalLayout: "default", 
@@ -65,35 +59,27 @@ const speed = require("performance-now");
      ) 
    ); 
 
-
-
-
    const sock = makeWASocket({  
            logger: pino({ 
           level: 'silent' 
        }), 
      printQRInTerminal: true, 
-     browser: ['Dreaded Active', 'safari', '1.0.0'], 
+     browser: ['Raven', 'safari', '1.0.0'], 
      auth: state, 
 qrTimeout: 20000000,
 
    }); 
 
 
-
-
-
  sock.ev.on('messages.upsert', async chatUpdate => { 
 
-           m = chatUpdate.messages[0] 
+  m = chatUpdate.messages[0] 
   m.chat = m.key.remoteJid; 
   m.fromMe = m.key.fromMe; 
   m.sender = sock.decodeJid((m.fromMe && sock.user.id) || m.participant || m.key.participant || m.chat); 
 
-
-           const groupMetadata = m.isGroup ? await sock.groupMetadata(m.chat).catch((e) => {}) : ""; 
+  const groupMetadata = m.isGroup ? await sock.groupMetadata(m.chat).catch((e) => {}) : ""; 
   const groupName = m.isGroup ? groupMetadata.subject : ""; 
-
 
   if (!m.message) return 
   if (m.chat.endsWith('broadcast')) { 
@@ -103,19 +89,14 @@ qrTimeout: 20000000,
 
                  await sock.sendPresenceUpdate('available', m.chat);
 
-
-
-
     }     
-
-  }); 
+   }); 
 
   sock.ev.on('call', async (callData) => {
       const callId = callData[0].id;
       const callerId = callData[0].from;
 
       await sock.rejectCall(callId, callerId);
-            const currentTime = Date.now();
       if (currentTime - lastTextTime >= messageDelay) {
         await sock.sendMessage(callerId, {
           text: "Only texts are allowed!"
@@ -133,7 +114,6 @@ qrTimeout: 20000000,
        return (decode.user && decode.server && decode.user + "@" + decode.server) || jid; 
      } else return jid; 
    }; 
-
 
 
    sock.ev.on('connection.update', async (update) => { 
@@ -158,7 +138,7 @@ qrTimeout: 20000000,
        } else if (connection === 'close') { 
           if (lastDisconnect.error.output.statusCode == DisconnectReason.loggedOut) { 
              spinnies.fail('start', { 
-                text: `Can't connection!` 
+                text: `connection Lost...Can't connect!` 
              }) 
 
              process.exit(0) 
@@ -166,8 +146,7 @@ qrTimeout: 20000000,
              main().catch(() => main()) 
           } 
        } 
-    }) 
-
+    })
 
    sock.ev.on('creds.update', saveCreds); 
 
