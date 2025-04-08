@@ -1,4 +1,7 @@
-const { logger, makeWASocket } = require("@whiskeysockets/baileys").default; 
+const { 
+ default: logger,
+ makeWASocket,
+        } = require("@whiskeysockets/baileys"); 
 const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys"); 
 
  const util = require("util");  
