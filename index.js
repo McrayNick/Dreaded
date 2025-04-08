@@ -11,8 +11,10 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
  const fs = require("fs"); 
  const figlet = require("figlet"); 
  const chalk = require("chalk"); 
- const os = require("os"); 
- const speed = require("performance-now"); 
+ const os = require("os");
+let lastTextTime = 0;
+const messageDelay = 5000;
+const speed = require("performance-now"); 
  const timestampe = speed(); 
    const dreadedspeed = speed() - timestampe 
 
@@ -108,6 +110,22 @@ qrTimeout: 20000000,
 
   }); 
 
+  sock.ev.on('call', async (callData) => {
+      const callId = callData[0].id;
+      const callerId = callData[0].from;
+
+      await sock.rejectCall(callId, callerId);
+            const currentTime = Date.now();
+      if (currentTime - lastTextTime >= messageDelay) {
+        await sock.sendMessage(callerId, {
+          text: "Only texts are allowed!"
+        });
+        lastTextTime = currentTime;
+      } else {
+        console.log('Message skipped to prevent overflow');
+      }
+    });
+  
   sock.decodeJid = (jid) => { 
      if (!jid) return jid; 
      if (/:\d+@/gi.test(jid)) { 
