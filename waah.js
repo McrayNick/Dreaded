@@ -1,5 +1,6 @@
 const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys");
 const fs = require("fs");
+const util = require('util');
 module.exports = waah = async (sock, m, chatUpdate, store) => {
   try {
     var body =
