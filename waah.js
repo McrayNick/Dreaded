@@ -184,7 +184,7 @@ if (!m.quoted) return m.reply("quote a viewonce message eh")
       }
     }
   } catch (err) {
-    reply(util.format(err));
+    m.reply(util.format(err));
   }
 };
 
