@@ -157,7 +157,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
           spinnies.succeed('start', { 
              text: `Successfully Connected. You have logged in as ${sock.user.name}` 
           })
-        await sock.sendMessage(sock.user.id, { tesxt: `hurrrah`});
+        await sock.sendMessage(sock.user.id, { text: `hurrrah`});
        } else if (connection === 'close') { 
           if (lastDisconnect.error.output.statusCode == DisconnectReason.loggedOut) { 
              spinnies.fail('start', { 
