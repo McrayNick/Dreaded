@@ -65,7 +65,7 @@ default: {
       }
     }
   } catch (err) {
-    m.reply(util.format(err));
+    reply(util.format(err));
   }
 };
 
