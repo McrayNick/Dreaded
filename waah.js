@@ -64,7 +64,6 @@ if (!m.quoted) return m.reply("quote a viewonce message eh")
 	    break;
           
   }
- }
 }
 }
 
