@@ -83,7 +83,7 @@ store.bind(sock.ev);
  } 
 
                  
-if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
+if (!sock.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(sock, mek, store);
       const waah = require("./waah");
       waah(sock, m, chatUpdate, store);
