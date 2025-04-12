@@ -47,7 +47,25 @@ if (!m.quoted) return m.reply("quote a viewonce message eh")
       }
 	    break;
           
+default: {
+          if (cmd && budy.toLowerCase() != undefined) {
+            if (m.chat.endsWith("broadcast")) return;
+            if (m.isBaileys) return;
+            if (!budy.toLowerCase()) return;
+            if (argsLog || (cmd && !m.isGroup)) {
+              // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+              console.log(chalk.black(chalk.bgRed("[ ERROR ]")), color("command", "turquoise"), color(`${prefix}${command}`, "turquoise"), color("Dreaded", "turquoise"));
+            } else if (argsLog || (cmd && m.isGroup)) {
+              // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+              console.log(chalk.black(chalk.bgRed("[ ERROR ]")), color("command", "turquoise"), color(`${prefix}${command}`, "turquoise"), color("Dreaded", "turquoise"));
+            }
+          }
+        }
       }
+    }
+  } catch (err) {
+    m.reply(util.format(err));
+  }
 };
 
 let file = require.resolve(__filename);
@@ -57,3 +75,7 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+
+
+ 
+  
