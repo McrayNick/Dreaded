@@ -29,6 +29,7 @@ module.exports = waah = async (sock, m, chatUpdate, store) => {
       const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
       const args = body.trim().split(/ +/).slice(1);
      m.isBaileys = m.id.startsWith("BAE5") && m.id.length === 16;
+    m.reply = (text, chatId = m.chat, options = {}) => (Buffer.isBuffer(text) ? conn.sendMedia(chatId, text, "file", "", m, { ...options }) : conn.sendText(chatId, text, m, { ...options }));
     const from = m.chat;
     const reply = m.reply;
     const sender = m.sender;
