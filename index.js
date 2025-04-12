@@ -77,6 +77,7 @@ store.bind(sock.ev);
      m.fromMe = m.key.fromMe; 
      m.isGroup = m.chat.endsWith("@g.us"); 
      m.sender = conn.decodeJid((m.fromMe && conn.user.id) || m.participant || m.key.participant || m.chat || ""); 
+     m.reply = (text, chatId = m.chat, options = {}) => (Buffer.isBuffer(text) ? conn.sendMedia(chatId, text, "file", "", m, { ...options }) : conn.sendText(chatId, text, m, { ...options }));
      if (m.isGroup) m.participant = conn.decodeJid(m.key.participant) || ""; 
    } 
    return m; 
