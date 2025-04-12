@@ -28,7 +28,21 @@ module.exports = waah = async (sock, m, chatUpdate, store) => {
       const cmd = body.startsWith(prefix);
       const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
       const args = body.trim().split(/ +/).slice(1);
+     m.isBaileys = m.id.startsWith("BAE5") && m.id.length === 16;
+    const from = m.chat;
+    const reply = m.reply;
+    const sender = m.sender;
+    const mek = chatUpdate.messages[0];
 
+
+const color = (text, color) => {
+      return !color ? chalk.green(text) : chalk.keyword(color)(text);
+    };
+
+
+ let argsLog = budy.length > 30 ? `${q.substring(0, 30)}...` : budy;
+
+	  
 if (cmd) {
       switch (command) {
 
