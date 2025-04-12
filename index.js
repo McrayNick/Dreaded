@@ -33,6 +33,31 @@ const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, f
    }) 
  }); 
 
+async function main () { 
+ const { state, saveCreds } = await useMultiFileAuthState('session'); 
+ console.log( 
+     color( 
+       figlet.textSync("RAVEN-BOT", { 
+         font: "Standard", 
+         horizontalLayout: "default", 
+         vertivalLayout: "default", 
+         whitespaceBreak: false, 
+       }), 
+       "red" 
+     ) 
+   ); 
+ 
+const sock = makeWASocket({  
+           logger: pino({ 
+          level: 'silent' 
+       }), 
+     printQRInTerminal: true, 
+     browser: ['Raven', 'safari', '1.0.0'], 
+     auth: state, 
+qrTimeout: 20000000,
+
+   }); 
+
 store.bind(sock.ev);
 
   sock.ev.on("messages.upsert", async (chatUpdate) => {
@@ -66,31 +91,6 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       console.log(err);
     }
   });
-
- async function main () { 
- const { state, saveCreds } = await useMultiFileAuthState('session'); 
- console.log( 
-     color( 
-       figlet.textSync("RAVEN-AI", { 
-         font: "Standard", 
-         horizontalLayout: "default", 
-         vertivalLayout: "default", 
-         whitespaceBreak: false, 
-       }), 
-       "red" 
-     ) 
-   ); 
-
-   const sock = makeWASocket({  
-           logger: pino({ 
-          level: 'silent' 
-       }), 
-     printQRInTerminal: true, 
-     browser: ['Raven', 'safari', '1.0.0'], 
-     auth: state, 
-qrTimeout: 20000000,
-
-   }); 
 
 
  sock.ev.on('messages.upsert', async chatUpdate => { 
