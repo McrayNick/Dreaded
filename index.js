@@ -81,17 +81,7 @@ store.bind(sock.ev);
      if (m.isGroup) m.participant = conn.decodeJid(m.key.participant) || ""; 
    } 
    return m; 
- } 
-
-                 
-if (!sock.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
-      let m = smsg(sock, mek, store);
-      const waah = require("./waah");
-      waah(sock, m, chatUpdate, store);
-    } catch (err) {
-      console.log(err);
-    }
-  });
+ }
 
 
  sock.ev.on('messages.upsert', async chatUpdate => { 
