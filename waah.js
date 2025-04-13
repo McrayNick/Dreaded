@@ -21,8 +21,8 @@ module.exports = waah = async (sock, m, chatUpdate, store) => {
         : m.mtype === "messageContextInfo"
         ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text
         : "";
-    var budy = typeof m.text == "string" ? m.text : "";
-	var msgR = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
+var budy = typeof m.text == "string" ? m.text : "";
+var msgR = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
 	  
       const prefix = process.env.PREFIX || '';
       const cmd = body.startsWith(prefix);
