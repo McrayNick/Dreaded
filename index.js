@@ -57,13 +57,6 @@ qrTimeout: 20000000,
 
 store.bind(sock.ev);
 
-  sock.ev.on("messages.upsert", async (chatUpdate) => {
-    try {
-      let mek = chatUpdate.messages[0];
-      if (!mek.message) return;
-      mek.message = Object.keys(mek.message)[0] === "ephemeralMessage" ? mek.message.ephemeralMessage.message : mek.message;
-
-     
  function smsg(m, conn) { 
    if (!m) return; 
    let M = proto.WebMessageInfo; 
