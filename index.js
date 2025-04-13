@@ -22,10 +22,7 @@ const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, f
  const color = (text, color) => { 
    return !color ? chalk.green(text) : chalk.keyword(color)(text); 
  }; 
-
-
-
- // const { Socket } = Extra; 
+ 
  const store = makeInMemoryStore({ 
   logger: pino().child({ 
      level: 'silent', 
@@ -163,32 +160,6 @@ store.bind(sock.ev);
     })
 
    sock.ev.on('creds.update', saveCreds); 
-
-  sock.downloadMediaMessage = async (message) => {
-    let mime = (message.msg || message).mimetype || '';
-    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
-    const stream = await downloadContentFromMessage(message, messageType);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
-    return buffer;
-  };
-
-  sock.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
-    let quoted = message.msg ? message.msg : message;
-    let mime = (message.msg || message).mimetype || '';
-    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
-    const stream = await downloadContentFromMessage(quoted, messageType);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
-    let type = await FileType.fromBuffer(buffer);
-    trueFileName = attachExtension ? (filename + '.' + type.ext) : filename;
-    await fs.writeFileSync(trueFileName, buffer);
-    return trueFileName;
-  }
   
  }; 
 
